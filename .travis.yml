@@ -1,6 +1,8 @@
 env:
   global:
     - CC_TEST_REPORTER_ID=8fdaf7c8198b46ebdb0fc75cc04a85a150af827c5f216e12ab1dc189750a8bff
+services:
+  - redis-server
 language: ruby
 rvm:
   # Build on the latest stable of all supported Rubies (https://www.ruby-lang.org/en/downloads/):

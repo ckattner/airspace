@@ -7,8 +7,28 @@
 # LICENSE file in the root directory of this source tree.
 #
 
+require 'database_cleaner'
 require 'simplecov'
 require 'simplecov-console'
+require 'redis'
+
+TEST_PREFIX = 'airspace_test'
+
+def airspace_test_key(key)
+  "#{TEST_PREFIX}:#{key}"
+end
+
+RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner[:redis].strategy = :truncation, { only: ['airspace_test:*'] }
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner[:redis].cleaning do
+      example.run
+    end
+  end
+end
 
 SimpleCov.formatter = SimpleCov::Formatter::Console
 SimpleCov.start
