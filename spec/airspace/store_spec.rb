@@ -10,18 +10,12 @@
 require './spec/spec_helper'
 
 # This is mainly to ensure CI has a proper Redis installation and instance.
-describe ::Redis do
-  let(:key) { airspace_test_key('name') }
-
-  let(:value) { 'Frank Rizzo' }
-
+describe ::Airspace::Store do
   let(:client) { Redis.new }
 
-  subject { client }
-
-  it 'should set and get a key' do
-    subject.set(key, value)
-    value = subject.get(key)
-    expect(value).to eq(value)
+  describe 'initialization' do
+    it 'should raise ArgumentError with a null client' do
+      expect { ::Airspace::Store.new(nil) }.to raise_error(ArgumentError)
+    end
   end
 end

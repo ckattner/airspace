@@ -8,5 +8,10 @@
 #
 
 module Airspace
-  VERSION = '1.0.0'
+  # Holds shared data among how to internally access data.
+  module InfoKeys
+    DATA_KEY        = 'd'
+    METADATA_KEY    = 'm'
+    SEPARATOR_CHAR  = ':'
+  end
 end

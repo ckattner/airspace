@@ -11,12 +11,9 @@ require 'database_cleaner'
 require 'simplecov'
 require 'simplecov-console'
 require 'redis'
+require 'pry'
 
 TEST_PREFIX = 'airspace_test'
-
-def airspace_test_key(key)
-  "#{TEST_PREFIX}:#{key}"
-end
 
 RSpec.configure do |config|
   config.before(:suite) do
