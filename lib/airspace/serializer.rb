@@ -27,14 +27,6 @@ module Airspace
       json_deserialize(json)
     end
 
-    def serialize_metadata(obj)
-      json_serialize(obj)
-    end
-
-    def deserialize_metadata(json)
-      json_deserialize(json)
-    end
-
     private
 
     def json_deserialize(json)

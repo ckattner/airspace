@@ -97,7 +97,7 @@ DEPENDENCIES
   airspace!
   database_cleaner (~> 1.7)
   guard-rspec (~> 4.7)
-  pry
+  pry (~> 0.12)
   rspec (~> 3.8)
   rubocop (~> 0.63.1)
   simplecov (~> 0.16.1)

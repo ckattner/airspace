@@ -33,12 +33,12 @@ module Airspace
       chunker.count(page_count)
     end
 
-    def as_json
+    def to_json
       {
         expires_in_seconds: expires_in_seconds,
         page_count: page_count,
         pages_per_chunk: pages_per_chunk
-      }
+      }.to_json
     end
   end
 end

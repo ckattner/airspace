@@ -5,10 +5,10 @@ require './lib/airspace/version'
 Gem::Specification.new do |s|
   s.name        = 'airspace'
   s.version     = Airspace::VERSION
-  s.summary     = 'This library is currently under construction.'
+  s.summary     = 'Redis Dataset Store'
 
   s.description = <<-DESCRIPTION
-    This library is currently under construction.
+    This library provides a very simple interface for storing/fetching/paging datasets in Redis.
   DESCRIPTION
 
   s.authors     = ['Matthew Ruggio']
@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency('database_cleaner', '~>1.7')
   s.add_development_dependency('guard-rspec', '~>4.7')
-  s.add_development_dependency('pry')
+  s.add_development_dependency('pry', '~>0.12')
   s.add_development_dependency('rspec', '~> 3.8')
   s.add_development_dependency('rubocop', '~>0.63.1')
   s.add_development_dependency('simplecov', '~>0.16.1')

@@ -11,28 +11,39 @@ require './spec/spec_helper'
 
 class CustomSerializer < ::Airspace::Serializer
   def serialize_data(obj)
-    json_serialize([obj['first'], obj['last']])
+    obj = obj.map { |k, v| [k.to_sym, v] }.to_h
+
+    json_serialize(
+      [
+        obj[:movie_name],
+        obj[:release_date].to_s,
+        obj[:rating]
+      ]
+    )
   end
 
   def deserialize_data(json)
     array = json_deserialize(json)
 
     {
-      'first' => array[0],
-      'last' => array[1]
+      movie_name: array[0],
+      release_date: Date.parse(array[1]),
+      rating: array[2]
     }
   end
 
   def serialize_row(obj)
-    json_serialize([obj['id'], obj['name']])
+    obj = obj.map { |k, v| [k.to_sym, v] }.to_h
+
+    json_serialize([obj[:id], obj[:name]])
   end
 
   def deserialize_row(json)
     array = json_deserialize(json)
 
     {
-      'id' => array[0],
-      'name' => array[1]
+      id: array[0],
+      name: array[1]
     }
   end
 end
@@ -43,25 +54,36 @@ describe ::Airspace do
 
   let(:data) do
     {
-      'first' => 'Matt',
-      'last' => 'Rizzo'
+      'movie_name' => 'Avengers',
+      'release_date' => Date.new(2012, 5, 5),
+      'rating' => 'PG-13'
     }
   end
 
-  let(:pages) do
+  let(:data_hash) do
+    {
+      'movie_name' => 'Avengers',
+      'release_date' => '2012-05-05',
+      'rating' => 'PG-13'
+    }
+  end
+
+  let(:rows) do
     [
-      [
-        { 'id' => 1, 'name' => 'Iron Man' },
-        { 'id' => 2, 'name' => 'Hulk' }
-      ],
-      [
-        { 'id' => 3, 'name' => 'Thor' },
-        { 'id' => 4, 'name' => 'Spiderman' }
-      ],
-      [
-        { 'id' => 1, 'name' => 'Captain America' }
-      ]
+      { 'id' => 1, 'name' => 'Iron Man' },
+      { 'id' => 2, 'name' => 'Hulk' },
+      { 'id' => 3, 'name' => 'Thor' },
+      { 'id' => 4, 'name' => 'Spiderman' },
+      { 'id' => 5, 'name' => 'Captain America' }
     ]
+  end
+
+  let(:pages) do
+    rows.each_slice(2).to_a
+  end
+
+  let(:symbolized_pages) do
+    pages.map { |page| page.map { |row| row.map { |k, v| [k.to_sym, v] }.to_h } }
   end
 
   describe '#get, #set, #del' do
@@ -72,7 +94,7 @@ describe ::Airspace do
       ::Airspace.set(client, data: data, id: id, pages: pages, options: options)
 
       actual_reader = ::Airspace.get(client, id, options: options)
-      expect(actual_reader.data).to eq(data)
+      expect(actual_reader.data).to eq(data_hash)
       expect(actual_reader.page_count).to eq(pages.length)
 
       actual_pages = actual_reader.pages
@@ -99,7 +121,7 @@ describe ::Airspace do
       id = ::Airspace.set(client, data: data, pages: pages, options: options)
 
       actual_reader = ::Airspace.get(client, id, options: options)
-      expect(actual_reader.data).to eq(data)
+      expect(actual_reader.data).to eq(data_hash)
       expect(actual_reader.page_count).to eq(pages.length)
 
       actual_pages = actual_reader.pages
@@ -130,20 +152,20 @@ describe ::Airspace do
       id = ::Airspace.set(client, data: data, pages: pages, options: options)
 
       actual_reader = ::Airspace.get(client, id, options: options)
-      expect(actual_reader.data).to eq(data)
+      expect(actual_reader.data).to eq(data.map { |k, v| [k.to_sym, v] }.to_h)
       expect(actual_reader.page_count).to eq(pages.length)
 
       actual_pages = actual_reader.pages
-      expect(actual_pages).to eq(pages)
+      expect(actual_pages).to eq(symbolized_pages)
 
       actual_page1 = actual_reader.page(1)
-      expect(actual_page1).to eq(pages[0])
+      expect(actual_page1).to eq(symbolized_pages[0])
 
       actual_page2 = actual_reader.page(2)
-      expect(actual_page2).to eq(pages[1])
+      expect(actual_page2).to eq(symbolized_pages[1])
 
       actual_page3 = actual_reader.page(3)
-      expect(actual_page3).to eq(pages[2])
+      expect(actual_page3).to eq(symbolized_pages[2])
 
       deleted = ::Airspace.del(client, id, options: options)
       expect(deleted).to be true

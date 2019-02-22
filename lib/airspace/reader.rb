@@ -42,7 +42,7 @@ module Airspace
 
         {}.tap do |h|
           h[DATA_KEY] = serializer.deserialize_data(hash[DATA_KEY])
-          h[METADATA_KEY] = serializer.deserialize_metadata(hash[METADATA_KEY])
+          h[METADATA_KEY] = JSON.parse(hash[METADATA_KEY])
         end
       end
     end

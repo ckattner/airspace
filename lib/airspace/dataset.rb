@@ -50,7 +50,7 @@ module Airspace
     def info_hash
       {}.tap do |hash|
         hash[DATA_KEY]      = serializer.serialize_data(data)
-        hash[METADATA_KEY]  = serializer.serialize_metadata(metadata.as_json)
+        hash[METADATA_KEY]  = metadata.to_json
       end
     end
 
