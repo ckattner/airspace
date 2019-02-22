@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    airspace (1.0.0)
+    airspace (1.0.1)
       redis (>= 3.3.0)
 
 GEM

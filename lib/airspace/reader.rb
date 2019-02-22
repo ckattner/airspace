@@ -66,12 +66,16 @@ module Airspace
     end
 
     def pages
+      return [] unless page_count.positive?
+
       store.chunks(key, chunk_count).map do |chunk|
         chunk.map { |r| serializer.deserialize_row(r) }
       end
     end
 
     def page(number)
+      return [] unless within_bounds?(number)
+
       page_index  = number - 1
       location    = chunker.locate(page_index)
       chunk       = store.chunk(key, location.chunk_index)
@@ -84,6 +88,10 @@ module Airspace
     end
 
     private
+
+    def within_bounds?(number)
+      page_count.positive? && number.positive? && number <= page_count
+    end
 
     def store
       ::Airspace::Store.new(client)
