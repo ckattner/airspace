@@ -1,5 +1,7 @@
 # Airspace
 
+[![CircleCI](https://circleci.com/bb/bluemarble-ondemand/airspace/tree/master.svg?style=svg&circle-token=564ffc7f74da7eb8080620f5b9e45382c8857ef1)](https://circleci.com/bb/bluemarble-ondemand/airspace/tree/master)
+
 The general use case for this library is as follows:
 
 I have a materialized/immutable dataset that I wish to temporarily store.  With this temporary storage, I would like to support some level of server-side paging, but I do not need further querying/sorting.
