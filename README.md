@@ -1,7 +1,5 @@
 # Airspace
 
-[![Gem Version](https://badge.fury.io/rb/airspace.svg)](https://badge.fury.io/rb/airspace) [![Build Status](https://travis-ci.org/bluemarblepayroll/airspace.svg?branch=master)](https://travis-ci.org/bluemarblepayroll/airspace) [![Maintainability](https://api.codeclimate.com/v1/badges/d25bfce65b230ee956df/maintainability)](https://codeclimate.com/github/bluemarblepayroll/airspace/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/d25bfce65b230ee956df/test_coverage)](https://codeclimate.com/github/bluemarblepayroll/airspace/test_coverage) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 The general use case for this library is as follows:
 
 I have a materialized/immutable dataset that I wish to temporarily store.  With this temporary storage, I would like to support some level of server-side paging, but I do not need further querying/sorting.
@@ -17,7 +15,7 @@ What this means is: if you can compute a final form of your dataset and it is im
 To install through Rubygems:
 
 ````
-gem install install airspace
+gem install airspace
 ````
 
 You can also add this to your Gemfile:
